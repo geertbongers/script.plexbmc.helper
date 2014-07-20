@@ -129,8 +129,8 @@ def getServerByHost(host):
     for server in list:
         if server.get('serverName') in host or server.get('server') in host:
             return server
-    return {}
-    
+    return { 'server': host }
+
 def getPlayers():
     info = jsonrpc("Player.GetActivePlayers") or []
     ret = {}
@@ -148,17 +148,17 @@ def getPlayerIds():
 def getVideoPlayerId(players = False):
     if players is None:
         players = getPlayers()
-    return players.get(xbmc_video(), {}).get('playerid', 0)
+    return players.get(xbmc_video(), {}).get('playerid', None)
 
 def getAudioPlayerId(players = False):
     if players is None:
         players = getPlayers()
-    return players.get(xbmc_audio(), {}).get('playerid', 0)
+    return players.get(xbmc_audio(), {}).get('playerid', None)
 
 def getPhotoPlayerId(players = False):
     if players is None:
         players = getPlayers()
-    return players.get(xbmc_photo(), {}).get('playerid', 0)
+    return players.get(xbmc_photo(), {}).get('playerid', None)
     
 def getVolume():
     return str(jsonrpc('Application.GetProperties', { "properties": [ "volume" ] }).get('volume', 100))

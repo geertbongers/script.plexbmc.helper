@@ -45,17 +45,17 @@ class SubscriptionManager:
         return msg
         
     def getTimelineXML(self, playerid, ptype):
-        if playerid > 0:
+        if playerid is not None:
             info = self.getPlayerProperties(playerid)
             # save this info off so the server update can use it too
-            self.playerprops[playerid] = info;
+            self.playerprops[playerid] = info
             state = info['state']
             time = info['time']
         else:
             state = "stopped"
             time = 0
         ret = "\r\n"+'<Timeline location="%s" state="%s" time="%s" type="%s"' % (self.mainlocation, state, time, ptype)
-        if playerid > 0:
+        if playerid is not None:
             WINDOW = xbmcgui.Window(10000)
             pbmc_server = str(WINDOW.getProperty('plexbmc.nowplaying.server'))
             keyid = str(WINDOW.getProperty('plexbmc.nowplaying.id'))
