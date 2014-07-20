@@ -1,11 +1,11 @@
 import uuid
 import xbmc
 import xbmcaddon
-from xml.dom.minidom import parse
+import xml.etree.ElementTree as etree
 
 settings = {}
 try:
-    guidoc = parse(xbmc.translatePath('special://userdata/guisettings.xml'))
+    guidoc = etree.parse(xbmc.translatePath('special://userdata/guisettings.xml')).getroot()
 except:
     print "Unable to read XBMC's guisettings.xml"    
 
@@ -13,7 +13,8 @@ def getGUI(name):
     global guidoc
     if guidoc is None:
         return False
-    return guidoc.getElementsByTagName(name)[0].nodeValue
+    for elem in guidoc.iter(tag=name):
+      return elem.text
     return False
 
 addon = xbmcaddon.Addon()

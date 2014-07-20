@@ -130,7 +130,7 @@ def getServerByHost(host):
         if server.get('serverName') in host or server.get('server') in host:
             return server
     return { 'server': host }
-
+    
 def getPlayers():
     info = jsonrpc("Player.GetActivePlayers") or []
     ret = {}
