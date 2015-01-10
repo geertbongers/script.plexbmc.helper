@@ -22,7 +22,7 @@ plexbmc = xbmcaddon.Addon('plugin.video.plexbmc')
 
 settings['debug'] = addon.getSetting('debug') == "true"
 settings['gdm_debug'] = int(addon.getSetting('gdm_debug'))
-if addon.getSetting('use_xbmc_name'):
+if addon.getSetting('use_xbmc_name') == "true":
     settings['client_name'] = getGUI('devicename')
 else:
     settings['client_name'] = addon.getSetting('c_name')
