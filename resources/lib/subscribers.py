@@ -11,6 +11,7 @@ class SubscriptionManager:
         self.subscribers = {}
         self.info = {}
         self.lastkey = ""
+        self.lastratingkey = ""
         self.volume = 0
         self.guid = ""
         self.server = ""
@@ -61,6 +62,7 @@ class SubscriptionManager:
             keyid = str(WINDOW.getProperty('plexbmc.nowplaying.id'))
             if keyid:
                 self.lastkey = "/library/metadata/%s"%keyid
+                self.lastratingkey = keyid
                 if pbmc_server:
                     (self.server, self.port) = pbmc_server.split(':')
             serv = getServerByHost(self.server)
@@ -115,6 +117,13 @@ class SubscriptionManager:
             params['time'] = info['time']
             params['duration'] = info['duration']
         serv = getServerByHost(self.server)
+        try: 
+            value = params['key']
+        except KeyError:
+            params['key'] = self.lastkey
+            params['ratingKey'] = self.lastratingkey
+            params['containerKey'] = self.lastkey
+            pass
         requests.getwithparams(self.server, self.port, "/:/timeline", params, getPlexHeaders(), serv.get('protocol', 'http'))
         printDebug("sent server notification with state = %s" % params['state'])
         WINDOW = xbmcgui.Window(10000)
